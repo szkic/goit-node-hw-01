@@ -9,7 +9,7 @@ const contactsPath = path.format({
 
 export function listContacts() {
   fs.readFile(contactsPath)
-    .then((data) => console.log(JSON.parse(data)))
+    .then((data) => console.table(JSON.parse(data)))
     .catch((error) => console.log(error));
 }
 
@@ -19,7 +19,7 @@ export function getContactById(contactId) {
       const parsedData = JSON.parse(data);
       const getContact = parsedData.find((option) => option.id === contactId);
 
-      console.log(getContact);
+      console.table(getContact);
     })
     .catch((error) => console.log(error));
 }
