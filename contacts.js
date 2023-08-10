@@ -7,35 +7,39 @@ const contactsPath = path.format({
   base: "contacts.json",
 });
 
-export function listContacts() {
-  fs.readFile(contactsPath)
-    .then((data) => console.table(JSON.parse(data)))
-    .catch((error) => console.log(error));
+export async function listContacts() {
+  try {
+    const data = await fs.readFile(contactsPath);
+    console.table(JSON.parse(data));
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-export function getContactById(contactId) {
-  fs.readFile(contactsPath)
-    .then((data) => {
-      const parsedData = JSON.parse(data);
-      const getContact = parsedData.find((option) => option.id === contactId);
-
-      console.table(getContact);
-    })
-    .catch((error) => console.log(error));
+export async function getContactById(contactId) {
+  try {
+    const data = await fs.readFile(contactsPath);
+    const parsedData = JSON.parse(data);
+    const getContact = parsedData.find((option) => option.id === contactId);
+    console.table(getContact);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-export function removeContact(contactId) {
-  fs.readFile(contactsPath)
-    .then((data) => {
-      const parsedData = JSON.parse(data);
-      const contacts = parsedData.filter((option) => option.id !== contactId);
+export async function removeContact(contactId) {
+  try {
+    const data = await fs.readFile(contactsPath);
+    const parsedData = JSON.parse(data);
+    const contacts = parsedData.filter((option) => option.id !== contactId);
 
-      fs.writeFile(contactsPath, JSON.stringify(contacts));
-    })
-    .catch((error) => console.log(error));
+    fs.writeFile(contactsPath, JSON.stringify(contacts));
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-export function addContact(name, email, phone) {
+export async function addContact(name, email, phone) {
   const contact = {
     id: nanoid(),
     name,
@@ -43,12 +47,13 @@ export function addContact(name, email, phone) {
     phone,
   };
 
-  fs.readFile(contactsPath)
-    .then((data) => {
-      const parsedData = JSON.parse(data);
-      parsedData.push(contact);
+  try {
+    const data = await fs.readFile(contactsPath);
+    const parsedData = JSON.parse(data);
+    parsedData.push(contact);
 
-      fs.writeFile(contactsPath, JSON.stringify(parsedData));
-    })
-    .catch((error) => console.log(error));
+    fs.writeFile(contactsPath, JSON.stringify(parsedData));
+  } catch (error) {
+    console.log(error);
+  }
 }
